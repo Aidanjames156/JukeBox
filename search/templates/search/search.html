@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Albums - JukeBox</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-compact-disc me-2"></i>JukeBox
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/search/"><i class="fas fa-search me-1"></i>ALBUMS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-list me-1"></i>LISTS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-users me-1"></i>MEMBERS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-newspaper me-1"></i>JOURNAL</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> SIGN IN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-success text-white ms-2 px-3" href="#">CREATE ACCOUNT</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="search-header text-center mb-5">
+                        <h1 class="search-title">Discover Albums</h1>
+                        <p class="search-subtitle">Search through millions of albums and discover your next favorite</p>
+                    </div>
+                    
+                    <div class="search-box-container">
+                        <form action="{% url 'search_results' %}" method="GET" id="searchForm">
+                            <div class="input-group search-input-group">
+                                <input type="text" 
+                                       class="form-control search-input" 
+                                       name="q" 
+                                       placeholder="Search for albums, artists, or songs..." 
+                                       autocomplete="off"
+                                       id="searchInput">
+                                <button class="btn btn-success search-btn" type="submit">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Live search results will appear here -->
+                    <div id="liveResults" class="live-results mt-4" style="display: none;"></div>
+                </div>
+            </div>
+            
+            <!-- Popular/Trending Albums -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h3 class="section-title">TRENDING THIS WEEK</h3>
+                    <div class="album-row">
+                        <div class="album-item">
+                            <img src="https://via.placeholder.com/200x200/FF6B6B/FFFFFF?text=Trending+1" alt="Album">
+                            <div class="album-overlay">
+                                <div class="album-rating">★★★★☆</div>
+                                <div class="album-actions">
+                                    <button class="action-btn" title="Add to List"><i class="fas fa-plus"></i></button>
+                                    <button class="action-btn" title="Favorite"><i class="fas fa-heart"></i></button>
+                                    <button class="action-btn" title="Mark as Listened"><i class="fas fa-check"></i></button>
+                                </div>
+                            </div>
+                            <div class="album-info">
+                                <div class="album-title">Album Title 1</div>
+                                <div class="album-artist">Artist Name</div>
+                            </div>
+                        </div>
+                        <div class="album-item">
+                            <img src="https://via.placeholder.com/200x200/4ECDC4/FFFFFF?text=Trending+2" alt="Album">
+                            <div class="album-overlay">
+                                <div class="album-rating">★★★★★</div>
+                                <div class="album-actions">
+                                    <button class="action-btn" title="Add to List"><i class="fas fa-plus"></i></button>
+                                    <button class="action-btn" title="Favorite"><i class="fas fa-heart"></i></button>
+                                    <button class="action-btn" title="Mark as Listened"><i class="fas fa-check"></i></button>
+                                </div>
+                            </div>
+                            <div class="album-info">
+                                <div class="album-title">Album Title 2</div>
+                                <div class="album-artist">Artist Name</div>
+                            </div>
+                        </div>
+                        <div class="album-item">
+                            <img src="https://via.placeholder.com/200x200/45B7D1/FFFFFF?text=Trending+3" alt="Album">
+                            <div class="album-overlay">
+                                <div class="album-rating">★★★☆☆</div>
+                                <div class="album-actions">
+                                    <button class="action-btn" title="Add to List"><i class="fas fa-plus"></i></button>
+                                    <button class="action-btn" title="Favorite"><i class="fas fa-heart"></i></button>
+                                    <button class="action-btn" title="Mark as Listened"><i class="fas fa-check"></i></button>
+                                </div>
+                            </div>
+                            <div class="album-info">
+                                <div class="album-title">Album Title 3</div>
+                                <div class="album-artist">Artist Name</div>
+                            </div>
+                        </div>
+                        <div class="album-item">
+                            <img src="https://via.placeholder.com/200x200/F7B731/FFFFFF?text=Trending+4" alt="Album">
+                            <div class="album-overlay">
+                                <div class="album-rating">★★★★☆</div>
+                                <div class="album-actions">
+                                    <button class="action-btn" title="Add to List"><i class="fas fa-plus"></i></button>
+                                    <button class="action-btn" title="Favorite"><i class="fas fa-heart"></i></button>
+                                    <button class="action-btn" title="Mark as Listened"><i class="fas fa-check"></i></button>
+                                </div>
+                            </div>
+                            <div class="album-info">
+                                <div class="album-title">Album Title 4</div>
+                                <div class="album-artist">Artist Name</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript for live search -->
+    <script>
+        // Live search functionality
+        const searchInput = document.getElementById('searchInput');
+        const liveResults = document.getElementById('liveResults');
+        let searchTimeout;
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            
+            // Clear previous timeout
+            clearTimeout(searchTimeout);
+            
+            if (query.length >= 2) {
+                // Debounce search requests
+                searchTimeout = setTimeout(() => {
+                    performLiveSearch(query);
+                }, 300);
+            } else {
+                liveResults.style.display = 'none';
+            }
+        });
+
+        function performLiveSearch(query) {
+            fetch(`/search/results/?q=${encodeURIComponent(query)}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayLiveResults(data.results);
+            })
+            .catch(error => {
+                console.error('Search error:', error);
+            });
+        }
+
+        function displayLiveResults(results) {
+            if (results.length === 0) {
+                liveResults.innerHTML = '<p class="text-center text-muted">No results found</p>';
+            } else {
+                let html = '<div class="live-results-grid">';
+                results.forEach(album => {
+                    html += `
+                        <div class="live-result-item">
+                            <img src="${album.cover}" alt="${album.title}" class="live-result-cover">
+                            <div class="live-result-info">
+                                <div class="live-result-title">${album.title}</div>
+                                <div class="live-result-artist">${album.artist} (${album.year})</div>
+                                <div class="live-result-rating">${'★'.repeat(Math.floor(album.rating))}${'☆'.repeat(5-Math.floor(album.rating))}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                liveResults.innerHTML = html;
+            }
+            liveResults.style.display = 'block';
+        }
+
+        // Hide live results when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!searchInput.contains(event.target) && !liveResults.contains(event.target)) {
+                liveResults.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

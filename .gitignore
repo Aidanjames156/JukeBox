@@ -1,0 +1,188 @@
+# Django JukeBox .gitignore
+
+# Environment variables and secrets
+.env
+.env.local
+.env.production
+*.key
+secrets.json
+
+# Django specific
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# Virtual environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# Python
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Node.js (if you add frontend build tools later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Django migrations (optional - some prefer to track these)
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# Static files collected by Django
+/static/
+/staticfiles/
+
+# Media files uploaded by users
+/media/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Temporary files
+*.tmp
+*.temp
+
+# API Documentation
+api_docs/
+
+# Local development files
+local/
+.local/
+
+# Security files
+*.pem
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# Spotify API specific
+spotify_cache/
+.spotify_cache
+
+# Custom project files to ignore
+personal_notes.txt
+todo.md
+NOTES.md
