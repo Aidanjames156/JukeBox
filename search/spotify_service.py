@@ -184,3 +184,133 @@ class SpotifyService:
         except Exception as e:
             logger.error(f"Error getting artist albums: {e}")
             return []
+
+    def get_trending_albums(self, limit=10):
+        """
+        Get trending/popular albums by searching for popular tracks and extracting albums
+        
+        Args:
+            limit (int): Number of albums to return
+            
+        Returns:
+            list: List of trending album dictionaries
+        """
+        if not self.sp:
+            return []
+            
+        try:
+            trending_albums = []
+            seen_albums = set()
+            
+            # Method 1: Search for popular tracks from various genres to get trending albums
+            popular_genres = ['pop', 'hip-hop', 'rock', 'electronic', 'indie', 'r&b']
+            
+            for genre in popular_genres:
+                if len(trending_albums) >= limit:
+                    break
+                    
+                try:
+                    # Search for popular tracks in each genre
+                    results = self.sp.search(q=f'genre:{genre}', type='track', limit=20, market='US')
+                    
+                    for track in results['tracks']['items']:
+                        if track['album'] and track['album']['id'] not in seen_albums:
+                            if len(trending_albums) >= limit:
+                                break
+                                
+                            album = track['album']
+                            seen_albums.add(album['id'])
+                            
+                            album_data = {
+                                'id': album['id'],
+                                'title': album['name'],
+                                'artist': ', '.join([artist['name'] for artist in album['artists']]),
+                                'year': album['release_date'][:4] if album['release_date'] else 'Unknown',
+                                'cover': album['images'][0]['url'] if album['images'] else None,
+                                'spotify_url': album['external_urls']['spotify'],
+                                'total_tracks': album['total_tracks'],
+                                'album_type': album['album_type'],
+                                'rating': 0
+                            }
+                            trending_albums.append(album_data)
+                            
+                except Exception as e:
+                    logger.error(f"Error searching genre {genre}: {e}")
+                    continue
+            
+            # Method 2: If we still need more albums, search for trending artists' albums
+            if len(trending_albums) < limit:
+                try:
+                    trending_artists = ['Taylor Swift', 'Drake', 'Bad Bunny', 'The Weeknd', 'Ariana Grande', 'Billie Eilish', 'Dua Lipa', 'Post Malone']
+                    
+                    for artist_name in trending_artists:
+                        if len(trending_albums) >= limit:
+                            break
+                        
+                        try:
+                            artist_results = self.sp.search(q=artist_name, type='artist', limit=1)
+                            if artist_results['artists']['items']:
+                                artist_id = artist_results['artists']['items'][0]['id']
+                                albums = self.sp.artist_albums(artist_id, album_type='album', limit=5)
+                                
+                                for album in albums['items']:
+                                    if album['id'] not in seen_albums and len(trending_albums) < limit:
+                                        seen_albums.add(album['id'])
+                                        album_data = {
+                                            'id': album['id'],
+                                            'title': album['name'],
+                                            'artist': ', '.join([artist['name'] for artist in album['artists']]),
+                                            'year': album['release_date'][:4] if album['release_date'] else 'Unknown',
+                                            'cover': album['images'][0]['url'] if album['images'] else None,
+                                            'spotify_url': album['external_urls']['spotify'],
+                                            'total_tracks': album['total_tracks'],
+                                            'album_type': album['album_type'],
+                                            'rating': 0
+                                        }
+                                        trending_albums.append(album_data)
+                        except Exception as e:
+                            logger.error(f"Error getting albums for artist {artist_name}: {e}")
+                            continue
+                    
+                except Exception as e:
+                    logger.error(f"Error getting trending artist albums: {e}")
+            
+            # Method 3: If we still need more, search for popular terms
+            if len(trending_albums) < limit:
+                try:
+                    popular_terms = ['hits', 'popular', 'trending', 'viral', 'chart']
+                    
+                    for term in popular_terms:
+                        if len(trending_albums) >= limit:
+                            break
+                            
+                        try:
+                            results = self.sp.search(q=term, type='album', limit=10, market='US')
+                            
+                            for album in results['albums']['items']:
+                                if album['id'] not in seen_albums and len(trending_albums) < limit:
+                                    seen_albums.add(album['id'])
+                                    album_data = {
+                                        'id': album['id'],
+                                        'title': album['name'],
+                                        'artist': ', '.join([artist['name'] for artist in album['artists']]),
+                                        'year': album['release_date'][:4] if album['release_date'] else 'Unknown',
+                                        'cover': album['images'][0]['url'] if album['images'] else None,
+                                        'spotify_url': album['external_urls']['spotify'],
+                                        'total_tracks': album['total_tracks'],
+                                        'album_type': album['album_type'],
+                                        'rating': 0
+                                    }
+                                    trending_albums.append(album_data)
+                        except Exception as e:
+                            logger.error(f"Error searching term {term}: {e}")
+                            continue
+                        
+                except Exception as e:
+                    logger.error(f"Error getting popular term albums: {e}")
+                    
+            return trending_albums[:limit]
+            
+        except Exception as e:
+            logger.error(f"Error getting trending albums: {e}")
+            return []

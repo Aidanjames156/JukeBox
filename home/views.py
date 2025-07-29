@@ -1,6 +1,25 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from search.spotify_service import SpotifyService
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 def home_start(request):
-    return render(request, 'index.html')
+    # Get trending albums from Spotify
+    spotify_service = SpotifyService()
+    trending_albums = []
+    
+    try:
+        trending_albums = spotify_service.get_trending_albums(limit=6)
+    except Exception as e:
+        logger.error(f"Error fetching trending albums: {e}")
+        # Fallback to empty list if API fails
+        trending_albums = []
+    
+    context = {
+        'trending_albums': trending_albums
+    }
+    
+    return render(request, 'index.html', context)

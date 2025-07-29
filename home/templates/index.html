@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JukeBoc - Track Artists, discover music</title>
+    <title>JukeBox - Track Artists, discover music</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -62,11 +62,23 @@
                     <h3 class="hero-subtitle">Tell your friends what's good.</h3>
                     <div class="hero-buttons mt-4">
                         <a href="#" class="btn btn-success btn-lg me-3">GET STARTED — IT'S FREE!</a>
-                        <a href="#" class="search-link">The album search is here</a>
+                        <a href="/search/" class="search-link">The album search is here</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="album-grid">
+                        {% for album in trending_albums|slice:":6" %}
+                        <div class="album-poster">
+                            <img src="{{ album.cover|default:'https://via.placeholder.com/200x200/666/FFFFFF?text=No+Image' }}" alt="{{ album.title }}" loading="lazy">
+                            <div class="rating-overlay">★★★★☆</div>
+                            <div class="album-hover-info">
+                                <h6>{{ album.title }}</h6>
+                                <p>{{ album.artist }}</p>
+                                <small>{{ album.year }}</small>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <!-- Fallback to placeholder images if no trending albums -->
                         <div class="album-poster">
                             <img src="https://via.placeholder.com/200x200/FF6B6B/FFFFFF?text=Album+1" alt="Album Cover">
                             <div class="rating-overlay">★★★★☆</div>
@@ -91,6 +103,7 @@
                             <img src="https://via.placeholder.com/200x200/E17055/FFFFFF?text=Album+6" alt="Album Cover">
                             <div class="rating-overlay">★★★☆☆</div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -160,8 +173,29 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h3 class="section-title">POPULAR ALBUMS THIS WEEK</h3>
+                    <h3 class="section-title">TRENDING ALBUMS THIS WEEK</h3>
                     <div class="album-row">
+                        {% for album in trending_albums %}
+                        <div class="album-item">
+                            <img src="{{ album.cover|default:'https://via.placeholder.com/150x150/666/FFFFFF?text=No+Image' }}" alt="{{ album.title }}">
+                            <div class="album-overlay">
+                                <div class="album-info">
+                                    <h5>{{ album.title }}</h5>
+                                    <p>{{ album.artist }}</p>
+                                    <small>{{ album.year }}</small>
+                                </div>
+                                <div class="album-actions">
+                                    <a href="{{ album.spotify_url }}" target="_blank" class="action-btn spotify-link" title="Open in Spotify">
+                                        <i class="fab fa-spotify"></i>
+                                    </a>
+                                    <button class="action-btn" title="Add to Watchlist"><i class="fas fa-plus"></i></button>
+                                    <button class="action-btn" title="Like"><i class="fas fa-heart"></i></button>
+                                    <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <!-- Fallback content if no trending albums are available -->
                         <div class="album-item">
                             <img src="https://via.placeholder.com/150x150/FF6B6B/FFFFFF?text=Popular+1" alt="Album">
                             <div class="album-overlay">
@@ -228,6 +262,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
