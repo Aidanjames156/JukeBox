@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'home',
     'search',
     'accounts',
+    'albums',
 ]
 
 MIDDLEWARE = [

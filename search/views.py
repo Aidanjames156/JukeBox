@@ -8,7 +8,19 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 def search_albums(request):
     """Main search page"""
-    return render(request, 'search/search.html')
+    context = {}
+    
+    try:
+        # Get trending albums for the search page
+        spotify_service = SpotifyService()
+        trending_albums = spotify_service.get_trending_albums(limit=12)
+        context['trending_albums'] = trending_albums
+    except Exception as e:
+        logger.error(f"Error fetching trending albums for search page: {e}")
+        # Provide fallback data if Spotify fails
+        context['trending_albums'] = []
+    
+    return render(request, 'search/search.html', context)
 
 def search_results(request):
     """Handle search results - both regular and AJAX requests"""

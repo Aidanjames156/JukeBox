@@ -314,3 +314,59 @@ class SpotifyService:
         except Exception as e:
             logger.error(f"Error getting trending albums: {e}")
             return []
+
+    def get_related_albums(self, album_id, limit=6):
+        """
+        Get related albums based on the artist and similar genres
+        
+        Args:
+            album_id (str): Spotify album ID
+            limit (int): Number of related albums to return
+            
+        Returns:
+            list: List of related album dictionaries
+        """
+        if not self.sp:
+            logger.error("Spotify client not initialized")
+            return []
+            
+        try:
+            # First get the album details to find the artist
+            album = self.sp.album(album_id)
+            if not album or not album['artists']:
+                return []
+                
+            # Get the main artist
+            main_artist = album['artists'][0]
+            artist_id = main_artist['id']
+            
+            # Get other albums by the same artist
+            artist_albums = self.sp.artist_albums(artist_id, album_type='album', limit=limit*2)
+            
+            related_albums = []
+            for album_item in artist_albums['items']:
+                # Skip the current album
+                if album_item['id'] == album_id:
+                    continue
+                    
+                album_data = {
+                    'id': album_item['id'],
+                    'title': album_item['name'],
+                    'artist': ', '.join([artist['name'] for artist in album_item['artists']]),
+                    'year': album_item['release_date'][:4] if album_item['release_date'] else 'Unknown',
+                    'cover': album_item['images'][0]['url'] if album_item['images'] else None,
+                    'spotify_url': album_item['external_urls']['spotify'],
+                    'total_tracks': album_item['total_tracks'],
+                    'album_type': album_item['album_type'],
+                    'rating': 0
+                }
+                related_albums.append(album_data)
+                
+                if len(related_albums) >= limit:
+                    break
+                    
+            return related_albums
+            
+        except Exception as e:
+            logger.error(f"Error getting related albums for {album_id}: {e}")
+            return []

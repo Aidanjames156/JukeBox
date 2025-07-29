@@ -21,7 +21,7 @@ body {
 }
 
 .navbar-brand {
-    color: #00e054 !important;
+    color: #BA1F33 !important;
     font-size: 1.5rem;
     font-weight: 700;
 }
@@ -43,8 +43,8 @@ body {
 }
 
 .btn-success {
-    background-color: #00e054;
-    border-color: #00e054;
+    background-color: #BA1F33;
+    border-color: #BA1F33;
     border-radius: 3px;
     font-weight: 600;
     font-size: 0.85rem;
@@ -52,8 +52,8 @@ body {
 }
 
 .btn-success:hover {
-    background-color: #00c248;
-    border-color: #00c248;
+    background-color: #47E5BC;
+    border-color: #47E5BC;
 }
 
 /* Hero Section */
@@ -80,13 +80,13 @@ body {
 }
 
 .search-link {
-    color: #00e054;
+    color: #BA1F33;
     text-decoration: none;
     font-size: 1rem;
 }
 
 .search-link:hover {
-    color: #00c248;
+    color: #47E5BC;
     text-decoration: underline;
 }
 
@@ -428,7 +428,7 @@ body {
 
 .feature-icon {
     font-size: 3rem;
-    color: #00e054;
+    color: #BA1F33;
     margin-bottom: 1.5rem;
 }
 
@@ -659,5 +659,227 @@ body {
     
     .result-cover {
         height: 200px;
+    }
+}
+
+/* Album Detail Page Styles */
+.album-detail-section {
+    background: linear-gradient(135deg, #14181c 0%, #1a1f25 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.album-cover-large img {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.album-header-info {
+    color: #ffffff;
+}
+
+.album-type-badge {
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+
+.album-title-large {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 1rem 0 0.5rem 0;
+    line-height: 1.2;
+}
+
+.album-artist-large {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #9ab;
+    margin-bottom: 1rem;
+}
+
+.album-meta {
+    margin: 1.5rem 0;
+}
+
+.meta-item {
+    color: #9ab;
+    margin-right: 2rem;
+    font-size: 0.9rem;
+}
+
+.meta-item i {
+    color: #FF6B6B;
+}
+
+.album-genres {
+    margin: 1rem 0;
+}
+
+.album-actions {
+    margin: 2rem 0;
+}
+
+.album-description h5 {
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.album-description p {
+    color: #9ab;
+    line-height: 1.6;
+}
+
+/* Track Listing Styles */
+.track-list {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.track-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.track-item:last-child {
+    border-bottom: none;
+}
+
+.track-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+}
+
+.track-number {
+    width: 40px;
+    text-align: center;
+    color: #9ab;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.track-info {
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.track-name {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.track-duration {
+    color: #9ab;
+    font-size: 0.9rem;
+    margin-right: 1rem;
+    min-width: 50px;
+    text-align: right;
+}
+
+.track-actions {
+    margin-left: 1rem;
+}
+
+/* Related Albums Styles */
+.related-album-item {
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.related-album-item:hover {
+    transform: translateY(-5px);
+}
+
+.related-album-item img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.related-album-item:hover img {
+    transform: scale(1.05);
+}
+
+.related-album-info {
+    padding: 0.5rem 0;
+}
+
+.related-album-title {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.related-album-year {
+    color: #9ab;
+    font-size: 0.8rem;
+}
+
+/* Error Section */
+.error-section {
+    background: linear-gradient(135deg, #14181c 0%, #1a1f25 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-content {
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Responsiveness for Album Detail */
+@media (max-width: 768px) {
+    .album-title-large {
+        font-size: 2rem;
+    }
+    
+    .album-artist-large {
+        font-size: 1.3rem;
+    }
+    
+    .meta-item {
+        display: block;
+        margin-bottom: 0.5rem;
+        margin-right: 0;
+    }
+    
+    .album-actions .btn {
+        margin-bottom: 0.5rem;
+        width: 100%;
+    }
+    
+    .track-item {
+        flex-wrap: wrap;
+    }
+    
+    .track-actions {
+        margin-left: 0;
+        margin-top: 0.5rem;
+        width: 100%;
     }
 }

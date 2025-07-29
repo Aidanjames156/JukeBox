@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/search/"><i class="fas fa-search me-1"></i>ALBUMS</a>
+                        <a class="nav-link" href="/search/"><i class="fas fa-search me-1"></i>SEARCH</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-list me-1"></i>LISTS</a>
@@ -205,7 +205,7 @@
                                         </a>
                                         <button class="action-btn" title="Add to Watchlist"><i class="fas fa-plus"></i></button>
                                         <button class="action-btn" title="Like"><i class="fas fa-heart"></i></button>
-                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <a href="{% url 'album_detail' album.id %}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +295,7 @@
                                         </a>
                                         <button class="action-btn" title="Add to Watchlist"><i class="fas fa-plus"></i></button>
                                         <button class="action-btn" title="Like"><i class="fas fa-heart"></i></button>
-                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <a href="{% url 'album_detail' album.id %}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
                                     </div>
                                 </div>
                             </div>
