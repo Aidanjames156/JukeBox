@@ -12,9 +12,13 @@ def home_start(request):
     trending_albums = []
     
     try:
-        trending_albums = spotify_service.get_trending_albums(limit=6)
+        trending_albums = spotify_service.get_trending_albums(limit=12)
+        print(f"Successfully retrieved {len(trending_albums)} trending albums")
+        if trending_albums:
+            print(f"First album: {trending_albums[0]['title']} by {trending_albums[0]['artist']}")
     except Exception as e:
         logger.error(f"Error fetching trending albums: {e}")
+        print(f"Error fetching trending albums: {e}")
         # Fallback to empty list if API fails
         trending_albums = []
     

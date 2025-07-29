@@ -353,6 +353,49 @@ body {
     transform: scale(1.05);
 }
 
+/* Hero Section Album Hover Info */
+.album-hover-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 20px 10px 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-align: center;
+}
+
+.album-poster:hover .album-hover-info {
+    opacity: 1;
+}
+
+.album-hover-info h6 {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+}
+
+.album-hover-info p {
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #9ab;
+}
+
+.album-hover-info small {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    color: #677489;
+}
+
 .album-poster img {
     width: 100%;
     height: auto;
@@ -415,9 +458,33 @@ body {
 
 .album-row {
     display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    padding-bottom: 10px;
+    gap: 30px;
+    animation: slideAlbums 30s linear infinite;
+    width: calc(200% + 30px); /* Double width for seamless loop */
+}
+
+@keyframes slideAlbums {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.album-row:hover {
+    animation-play-state: paused;
+}
+
+.popular-section .container {
+    overflow: hidden;
+    position: relative;
+}
+
+.album-row-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
 .album-item {

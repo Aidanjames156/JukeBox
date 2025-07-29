@@ -41,12 +41,21 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> SIGN IN</a>
+                        <span class="nav-link">Welcome, {{ user.username }}!</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-success text-white ms-2 px-3" href="#">CREATE ACCOUNT</a>
+                        <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> LOGOUT</a>
                     </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> SIGN IN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-success text-white ms-2 px-3" href="{% url 'signup' %}">CREATE ACCOUNT</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -61,8 +70,13 @@
                     <h2 class="hero-subtitle">Save those you want to hear.</h2>
                     <h3 class="hero-subtitle">Tell your friends what's good.</h3>
                     <div class="hero-buttons mt-4">
-                        <a href="#" class="btn btn-success btn-lg me-3">GET STARTED — IT'S FREE!</a>
+                        {% if user.is_authenticated %}
+                        <a href="/search/" class="btn btn-success btn-lg me-3">START DISCOVERING MUSIC</a>
+                        <a href="/search/" class="search-link">Find your next favorite album</a>
+                        {% else %}
+                        <a href="{% url 'signup' %}" class="btn btn-success btn-lg me-3">GET STARTED — IT'S FREE!</a>
                         <a href="/search/" class="search-link">The album search is here</a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -174,95 +188,187 @@
             <div class="row">
                 <div class="col-12">
                     <h3 class="section-title">TRENDING ALBUMS THIS WEEK</h3>
-                    <div class="album-row">
-                        {% for album in trending_albums %}
-                        <div class="album-item">
-                            <img src="{{ album.cover|default:'https://via.placeholder.com/150x150/666/FFFFFF?text=No+Image' }}" alt="{{ album.title }}">
-                            <div class="album-overlay">
-                                <div class="album-info">
-                                    <h5>{{ album.title }}</h5>
-                                    <p>{{ album.artist }}</p>
-                                    <small>{{ album.year }}</small>
-                                </div>
-                                <div class="album-actions">
-                                    <a href="{{ album.spotify_url }}" target="_blank" class="action-btn spotify-link" title="Open in Spotify">
-                                        <i class="fab fa-spotify"></i>
-                                    </a>
-                                    <button class="action-btn" title="Add to Watchlist"><i class="fas fa-plus"></i></button>
-                                    <button class="action-btn" title="Like"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        {% empty %}
-                        <!-- Fallback content if no trending albums are available -->
-                        <div class="album-item">
-                            <img src="https://via.placeholder.com/150x150/FF6B6B/FFFFFF?text=Popular+1" alt="Album">
-                            <div class="album-overlay">
-                                <div class="album-rating">★★★★☆</div>
-                                <div class="album-actions">
-                                    <button class="action-btn"><i class="fas fa-plus"></i></button>
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                    <div class="album-row-wrapper">
+                        <div class="album-row">
+                            {% for album in trending_albums %}
+                            <div class="album-item">
+                                <img src="{{ album.cover|default:'https://via.placeholder.com/150x150/666/FFFFFF?text=No+Image' }}" alt="{{ album.title }}">
+                                <div class="album-overlay">
+                                    <div class="album-info">
+                                        <h5>{{ album.title }}</h5>
+                                        <p>{{ album.artist }}</p>
+                                        <small>{{ album.year }}</small>
+                                    </div>
+                                    <div class="album-actions">
+                                        <a href="{{ album.spotify_url }}" target="_blank" class="action-btn spotify-link" title="Open in Spotify">
+                                            <i class="fab fa-spotify"></i>
+                                        </a>
+                                        <button class="action-btn" title="Add to Watchlist"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn" title="Like"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="album-item">
-                            <img src="https://via.placeholder.com/150x150/4ECDC4/FFFFFF?text=Popular+2" alt="Album">
-                            <div class="album-overlay">
-                                <div class="album-rating">★★★★★</div>
-                                <div class="album-actions">
-                                    <button class="action-btn"><i class="fas fa-plus"></i></button>
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            {% empty %}
+                            <!-- Fallback content if no trending albums are available -->
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/FF6B6B/FFFFFF?text=Popular+1" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★★☆</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="album-item">
-                            <img src="https://via.placeholder.com/150x150/45B7D1/FFFFFF?text=Popular+3" alt="Album">
-                            <div class="album-overlay">
-                                <div class="album-rating">★★★☆☆</div>
-                                <div class="album-actions">
-                                    <button class="action-btn"><i class="fas fa-plus"></i></button>
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/4ECDC4/FFFFFF?text=Popular+2" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★★★</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="album-item">
-                            <img src="https://via.placeholder.com/150x150/F7B731/FFFFFF?text=Popular+4" alt="Album">
-                            <div class="album-overlay">
-                                <div class="album-rating">★★★★☆</div>
-                                <div class="album-actions">
-                                    <button class="action-btn"><i class="fas fa-plus"></i></button>
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/45B7D1/FFFFFF?text=Popular+3" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★☆☆</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="album-item">
-                            <img src="https://via.placeholder.com/150x150/5F27CD/FFFFFF?text=Popular+5" alt="Album">
-                            <div class="album-overlay">
-                                <div class="album-rating">★★★★★</div>
-                                <div class="album-actions">
-                                    <button class="action-btn"><i class="fas fa-plus"></i></button>
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/F7B731/FFFFFF?text=Popular+4" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★★☆</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="album-item">
-                            <img src="https://via.placeholder.com/150x150/E17055/FFFFFF?text=Popular+6" alt="Album">
-                            <div class="album-overlay">
-                                <div class="album-rating">★★★☆☆</div>
-                                <div class="album-actions">
-                                    <button class="action-btn"><i class="fas fa-plus"></i></button>
-                                    <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/5F27CD/FFFFFF?text=Popular+5" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★★★</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/E17055/FFFFFF?text=Popular+6" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★☆☆</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            
+                            <!-- Duplicate albums for seamless loop -->
+                            {% for album in trending_albums %}
+                            <div class="album-item">
+                                <img src="{{ album.cover|default:'https://via.placeholder.com/150x150/666/FFFFFF?text=No+Image' }}" alt="{{ album.title }}">
+                                <div class="album-overlay">
+                                    <div class="album-info">
+                                        <h5>{{ album.title }}</h5>
+                                        <p>{{ album.artist }}</p>
+                                        <small>{{ album.year }}</small>
+                                    </div>
+                                    <div class="album-actions">
+                                        <a href="{{ album.spotify_url }}" target="_blank" class="action-btn spotify-link" title="Open in Spotify">
+                                            <i class="fab fa-spotify"></i>
+                                        </a>
+                                        <button class="action-btn" title="Add to Watchlist"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn" title="Like"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <!-- Duplicate fallback content for seamless loop -->
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/FF6B6B/FFFFFF?text=Popular+1" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★★☆</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/4ECDC4/FFFFFF?text=Popular+2" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★★★</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/45B7D1/FFFFFF?text=Popular+3" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★☆☆</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/F7B731/FFFFFF?text=Popular+4" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★★☆</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/5F27CD/FFFFFF?text=Popular+5" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★★★</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="album-item">
+                                <img src="https://via.placeholder.com/150x150/E17055/FFFFFF?text=Popular+6" alt="Album">
+                                <div class="album-overlay">
+                                    <div class="album-rating">★★★☆☆</div>
+                                    <div class="album-actions">
+                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
+                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
