@@ -4,6 +4,33 @@
     box-sizing: border-box;
 }
 
+/* Global override for Bootstrap link styles */
+a {
+    text-decoration: none !important;
+}
+
+a:hover, a:focus, a:active, a:visited {
+    text-decoration: none !important;
+}
+
+/* Override Bootstrap's text decoration utilities */
+.text-decoration-underline {
+    text-decoration: none !important;
+}
+
+.text-decoration-none {
+    text-decoration: none !important;
+}
+
+/* Force override any inline styles or Bootstrap defaults */
+* {
+    text-decoration: none !important;
+}
+
+*:hover, *:focus, *:active, *:visited {
+    text-decoration: none !important;
+}
+
 body {
     background-color: #14181c;
     color: #9ab;
@@ -81,13 +108,13 @@ body {
 
 .search-link {
     color: #BA1F33;
-    text-decoration: none;
+    text-decoration: none !important;
     font-size: 1rem;
 }
 
 .search-link:hover {
     color: #47E5BC;
-    text-decoration: underline;
+    text-decoration: none !important;
 }
 
 /* Search Section */
@@ -219,6 +246,8 @@ body {
     overflow: hidden;
     transition: transform 0.3s ease;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .result-card:hover {
@@ -273,25 +302,90 @@ body {
 
 .result-info {
     padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .result-title {
-    color: #fff;
+    color: #fff !important;
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
+    display: block !important;
 }
 
 .result-artist {
-    color: #9ab;
+    color: #9ab !important;
     margin-bottom: 0.3rem;
     font-size: 0.95rem;
+    display: block !important;
 }
 
 .result-year {
-    color: #677;
+    color: #677 !important;
     font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    display: block !important;
+}
+
+/* Ensure search result text is visible inside links */
+.result-link .result-title {
+    color: #fff !important;
+}
+
+.result-link .result-artist {
+    color: #9ab !important;
+}
+
+.result-link .result-year {
+    color: #677 !important;
+}
+
+/* Force visibility of result text */
+.result-link .result-info h5,
+.result-link .result-info p,
+.result-card .result-info h5,
+.result-card .result-info p {
+    color: inherit !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* New result link styles */
+.result-image-link {
+    display: block;
+    text-decoration: none;
+}
+
+.result-title-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.result-title-link:hover,
+.result-title-link:focus,
+.result-title-link:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+.result-title-link .result-title {
+    color: #fff !important;
+    transition: color 0.3s ease;
+}
+
+.result-title-link:hover .result-title {
+    color: #47E5BC !important;
+}
+
+/* Clickable result cards */
+.clickable-card {
+    cursor: pointer;
+}
+
+/* Clickable album items */
+.clickable-album {
+    cursor: pointer;
 }
 
 .genre-tag {
@@ -319,6 +413,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: auto;
+    padding-top: 0.5rem;
 }
 
 .btn-sm {
@@ -487,53 +583,10 @@ body {
     position: relative;
 }
 
-.album-item {
-    position: relative;
-    min-width: 150px;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.album-item img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 5px;
-    transition: transform 0.3s ease;
-}
-
-.album-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(20, 24, 28, 0.8);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px;
-}
-
-.album-item:hover .album-overlay {
-    opacity: 1;
-}
-
-.album-item:hover img {
-    transform: scale(1.1);
-}
-
 .album-rating {
     color: #ff8800;
     font-size: 0.9rem;
     font-weight: bold;
-}
-
-.album-actions {
-    display: flex;
-    justify-content: space-between;
 }
 
 .album-info {
@@ -620,14 +673,14 @@ body {
 
 .footer-link {
     color: #9ab;
-    text-decoration: none;
+    text-decoration: none !important;
     margin-left: 1rem;
     font-size: 0.9rem;
 }
 
 .footer-link:hover {
     color: #fff;
-    text-decoration: underline;
+    text-decoration: none !important;
 }
 
 /* Responsive adjustments */
@@ -882,4 +935,136 @@ body {
         margin-top: 0.5rem;
         width: 100%;
     }
+}
+
+/* Clickable Album Links */
+.album-link, .result-link {
+    text-decoration: none !important;
+    color: inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.album-link:hover, .result-link:hover {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+.album-link:focus, .result-link:focus {
+    text-decoration: none !important;
+    color: inherit;
+    outline: none;
+}
+
+.album-link:visited, .result-link:visited {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+.album-link:active, .result-link:active {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+/* Additional rules to prevent underlines on nested elements */
+.album-link *, .result-link * {
+    text-decoration: none !important;
+}
+
+.album-item a, .result-item a {
+    text-decoration: none !important;
+}
+
+.album-item a:hover, .result-item a:hover,
+.album-item a:focus, .result-item a:focus,
+.album-item a:visited, .result-item a:visited,
+.album-item a:active, .result-item a:active {
+    text-decoration: none !important;
+}
+
+/* Override any Bootstrap link styles */
+a.album-link, a.result-link {
+    text-decoration: none !important;
+}
+
+a.album-link:hover, a.result-link:hover,
+a.album-link:focus, a.result-link:focus {
+    text-decoration: none !important;
+}
+
+/* Fix for album actions positioning with clickable links */
+.album-item {
+    position: relative;
+    min-width: 150px;
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.album-item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.album-item .album-link {
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.album-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(20, 24, 28, 0.8);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    pointer-events: none;
+}
+
+.album-item:hover .album-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.album-item:hover img {
+    transform: scale(1.1);
+}
+
+.album-actions {
+    display: flex;
+    justify-content: space-between;
+    pointer-events: auto;
+}
+
+.album-info {
+    text-align: center;
+    padding-top: 8px;
+    color: #fff;
+}
+
+.album-item:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.result-item {
+    cursor: pointer;
+    position: relative;
+}
+
+.result-item:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }

@@ -12,8 +12,24 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    <!-- Custom CSS - Load AFTER Bootstrap to ensure our styles override -->
     <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    
+    <!-- Additional inline CSS to force override Bootstrap links -->
+    <style>
+        a, a:hover, a:focus, a:active, a:visited {
+            text-decoration: none !important;
+        }
+        .album-link, .result-link {
+            text-decoration: none !important;
+        }
+        .album-link *, .result-link * {
+            text-decoration: none !important;
+        }
+        .album-info h5, .album-info p, .album-info small {
+            text-decoration: none !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -106,22 +122,23 @@
                         <div class="album-row">
                             {% for album in trending_albums %}
                             <div class="album-item">
-                                <img src="{{ album.cover|default:'https://via.placeholder.com/150x150/666/FFFFFF?text=No+Image' }}" alt="{{ album.title }}">
-                                <div class="album-overlay">
-                                    <div class="album-info">
-                                        <h5>{{ album.title }}</h5>
-                                        <p>{{ album.artist }}</p>
-                                        <small>{{ album.year }}</small>
+                                <a href="{% url 'album_detail' album.id %}" class="album-link">
+                                    <img src="{{ album.cover|default:'https://via.placeholder.com/150x150/666/FFFFFF?text=No+Image' }}" alt="{{ album.title }}">
+                                    <div class="album-overlay">
+                                        <div class="album-info">
+                                            <h5>{{ album.title }}</h5>
+                                            <p>{{ album.artist }}</p>
+                                            <small>{{ album.year }}</small>
+                                        </div>
+                                        <div class="album-actions">
+                                            <a href="{{ album.spotify_url }}" target="_blank" class="action-btn spotify-link" title="Open in Spotify" onclick="event.stopPropagation();">
+                                                <i class="fab fa-spotify"></i>
+                                            </a>
+                                            <button class="action-btn" title="Add to Watchlist" onclick="event.stopPropagation();"><i class="fas fa-plus"></i></button>
+                                            <button class="action-btn" title="Like" onclick="event.stopPropagation();"><i class="fas fa-heart"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="album-actions">
-                                        <a href="{{ album.spotify_url }}" target="_blank" class="action-btn spotify-link" title="Open in Spotify">
-                                            <i class="fab fa-spotify"></i>
-                                        </a>
-                                        <button class="action-btn" title="Add to Watchlist"><i class="fas fa-plus"></i></button>
-                                        <button class="action-btn" title="Like"><i class="fas fa-heart"></i></button>
-                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                             {% empty %}
                             <!-- Fallback content if no trending albums are available -->
@@ -130,9 +147,8 @@
                                 <div class="album-overlay">
                                     <div class="album-rating">★★★★☆</div>
                                     <div class="album-actions">
-                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
-                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn" onclick="event.stopPropagation();"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn" onclick="event.stopPropagation();"><i class="fas fa-heart"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -141,9 +157,8 @@
                                 <div class="album-overlay">
                                     <div class="album-rating">★★★★★</div>
                                     <div class="album-actions">
-                                        <button class="action-btn"><i class="fas fa-plus"></i></button>
-                                        <button class="action-btn"><i class="fas fa-heart"></i></button>
-                                        <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn" onclick="event.stopPropagation();"><i class="fas fa-plus"></i></button>
+                                        <button class="action-btn" onclick="event.stopPropagation();"><i class="fas fa-heart"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -174,22 +189,23 @@
                             <!-- Duplicate albums for seamless loop -->
                             {% for album in trending_albums %}
                             <div class="album-item">
-                                <img src="{{ album.cover|default:'https://via.placeholder.com/150x150/666/FFFFFF?text=No+Image' }}" alt="{{ album.title }}">
-                                <div class="album-overlay">
-                                    <div class="album-info">
-                                        <h5>{{ album.title }}</h5>
-                                        <p>{{ album.artist }}</p>
-                                        <small>{{ album.year }}</small>
+                                <a href="{% url 'album_detail' album.id %}" class="album-link">
+                                    <img src="{{ album.cover|default:'https://via.placeholder.com/150x150/666/FFFFFF?text=No+Image' }}" alt="{{ album.title }}">
+                                    <div class="album-overlay">
+                                        <div class="album-info">
+                                            <h5>{{ album.title }}</h5>
+                                            <p>{{ album.artist }}</p>
+                                            <small>{{ album.year }}</small>
+                                        </div>
+                                        <div class="album-actions">
+                                            <a href="{{ album.spotify_url }}" target="_blank" class="action-btn spotify-link" title="Open in Spotify" onclick="event.stopPropagation();">
+                                                <i class="fab fa-spotify"></i>
+                                            </a>
+                                            <button class="action-btn" title="Add to Watchlist" onclick="event.stopPropagation();"><i class="fas fa-plus"></i></button>
+                                            <button class="action-btn" title="Like" onclick="event.stopPropagation();"><i class="fas fa-heart"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="album-actions">
-                                        <a href="{{ album.spotify_url }}" target="_blank" class="action-btn spotify-link" title="Open in Spotify">
-                                            <i class="fab fa-spotify"></i>
-                                        </a>
-                                        <button class="action-btn" title="Add to Watchlist"><i class="fas fa-plus"></i></button>
-                                        <button class="action-btn" title="Like"><i class="fas fa-heart"></i></button>
-                                        <button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                             {% empty %}
                             <!-- Duplicate fallback content for seamless loop -->

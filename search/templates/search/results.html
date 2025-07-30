@@ -12,8 +12,24 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    <!-- Custom CSS - Load AFTER Bootstrap to ensure our styles override -->
     <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    
+    <!-- Additional inline CSS to force override Bootstrap links -->
+    <style>
+        a, a:hover, a:focus, a:active, a:visited {
+            text-decoration: none !important;
+        }
+        .album-link, .result-link {
+            text-decoration: none !important;
+        }
+        .album-link *, .result-link * {
+            text-decoration: none !important;
+        }
+        .result-info h5, .result-info p, .result-info small {
+            text-decoration: none !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -106,7 +122,7 @@
             <div class="row">
                 {% for album in results %}
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                    <div class="result-card">
+                    <div class="result-card clickable-card" data-url="{% url 'album_detail' album.id %}">
                         <div class="result-cover-container">
                             <img src="{{ album.cover }}" alt="{{ album.title }}" class="result-cover">
                             <div class="result-overlay">
@@ -116,10 +132,9 @@
                                     {% endfor %}
                                 </div>
                                 <div class="result-actions">
-                                    <button class="action-btn" title="Add to List"><i class="fas fa-plus"></i></button>
-                                    <button class="action-btn" title="Favorite"><i class="fas fa-heart"></i></button>
-                                    <button class="action-btn" title="Mark as Listened"><i class="fas fa-check"></i></button>
-                                    <a href="{% url 'album_detail' album.id %}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
+                                    <button class="action-btn" title="Add to List" onclick="event.stopPropagation();"><i class="fas fa-plus"></i></button>
+                                    <button class="action-btn" title="Favorite" onclick="event.stopPropagation();"><i class="fas fa-heart"></i></button>
+                                    <button class="action-btn" title="Mark as Listened" onclick="event.stopPropagation();"><i class="fas fa-check"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +148,7 @@
                                 {% endfor %}
                             </div>
                             <div class="result-actions-bottom mt-2">
-                                <a href="{{ album.spotify_url }}" target="_blank" class="btn btn-success btn-sm">
+                                <a href="{{ album.spotify_url }}" target="_blank" class="btn btn-success btn-sm" onclick="event.stopPropagation();">
                                     <i class="fab fa-spotify"></i> Open in Spotify
                                 </a>
                                 <span class="album-type-badge">{{ album.album_type|capfirst }}</span>
@@ -160,5 +175,25 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Card click handling -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle clickable cards
+            document.querySelectorAll('.clickable-card').forEach(function(card) {
+                card.addEventListener('click', function(e) {
+                    // Don't navigate if user clicked on a button or link
+                    if (e.target.closest('button, a')) {
+                        return;
+                    }
+                    
+                    const url = this.getAttribute('data-url');
+                    if (url) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
