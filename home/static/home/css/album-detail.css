@@ -1,0 +1,237 @@
+/* Album Reviews Section*/
+.album-reviews {
+    background: #2c3440;
+    padding: 2rem;
+    margin: 0;
+    height: 100%;
+    overflow-y: auto;
+    max-height: 800px;
+}
+
+.album-reviews h3.section-title {
+    .star-rating-wrapper {
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0;
+    }
+
+    .stars-row {
+        display: flex;
+        gap: 1rem;
+        font-size: 3rem;
+        cursor: pointer;
+    }
+
+    .star-item {
+        color: #6c757d;
+        transition: color 0.1s;
+    }
+
+    .star-item.filled {
+        color: #ffc107;
+    }
+}
+
+.review-content {
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+}
+
+.review-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.review-action {
+    color: #9ab;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.review-action:hover {
+    color: #47E5BC;
+}
+
+/* Track Listing - Letterboxd Style */
+.track-list {
+    background: #2c3440;
+    padding: 2rem;
+    margin: 0;
+    height: 100%;
+    overflow-y: auto;
+    max-height: 800px;
+}
+
+.track-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+.track-item:last-child {
+    border-bottom: none;
+}
+
+.track-item:hover {
+    background: rgba(20, 24, 28, 0.8);
+}
+
+.track-number {
+    color: #678;
+    font-size: 0.9rem;
+    font-weight: 600;
+    width: 2rem;
+    text-align: right;
+    margin-right: 1rem;
+}
+
+.track-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.track-name {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.track-duration {
+    color: #678;
+    font-size: 0.9rem;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+.track-actions {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.track-item:hover .track-actions {
+    opacity: 1;
+}
+
+.track-action-btn {
+    background: none;
+    border: none;
+    color: #9ab;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.track-action-btn:hover {
+    color: #47E5BC;
+}
+
+/* Review Modal - Letterboxd Style */
+.modal-content {
+    background: #1e2328;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+}
+
+.modal-title {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.form-label {
+    color: #9ab;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    background: #2c3440;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 0.75rem;
+    border-radius: 4px;
+}
+
+.form-control:focus {
+    background: #2c3440;
+    border-color: #47E5BC;
+    box-shadow: 0 0 0 2px rgba(71, 229, 188, 0.2);
+    color: #fff;
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+}
+
+.btn-secondary {
+    background: #2c3440;
+    border: none;
+    color: #9ab;
+}
+
+.btn-secondary:hover {
+    background: #3c4450;
+    color: #fff;
+}
+
+.btn-success {
+    background: #47E5BC;
+    border: none;
+    color: #14181c;
+    font-weight: 600;
+}
+
+.btn-success:hover {
+    background: #3ad4ac;
+    color: #14181c;
+}
+
+/* SVG Star Rating */
+.star-rating-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.stars-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.star {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background: transparent;
+    overflow: visible;
+}
+
+.star-fill {
+    clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+    transition: clip-path 0.05s ease-out;
+    will-change: clip-path;
+}

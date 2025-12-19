@@ -1,35 +1,67 @@
-from django.shortcuts import render
+
+from django.shortcuts import render, redirect
 from search.spotify_service import SpotifyService
 import logging
+from .forms import RatingForm
+from .models import Rating
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 logger = logging.getLogger(__name__)
 
 def album_detail(request, album_id):
-    """Album detail page"""
+    """Album detail page with rating/review support"""
     try:
-        # Try to get album details from Spotify
         spotify_service = SpotifyService()
         album = spotify_service.get_album_details(album_id)
-        
+
+        # Get all reviews for this album
+        reviews = Rating.objects.filter(album_id=album_id).select_related('user').order_by('-created_at')
+
+        # Handle rating form
+        if request.user.is_authenticated:
+            try:
+                user_rating = Rating.objects.get(user=request.user, album_id=album_id)
+            except Rating.DoesNotExist:
+                user_rating = None
+        else:
+            user_rating = None
+
+        if request.method == 'POST' and request.user.is_authenticated:
+            form = RatingForm(request.POST, instance=user_rating)
+            if form.is_valid():
+                rating_obj = form.save(commit=False)
+                rating_obj.user = request.user
+                rating_obj.album_id = album_id
+                rating_obj.save()
+                messages.success(request, 'Your rating and review have been saved!')
+                return redirect('album_detail', album_id=album_id)
+        else:
+            form = RatingForm(instance=user_rating)
+
         if album:
             context = {
                 'album': album,
                 'tracks': album.get('tracks', []),
-                'related_albums': spotify_service.get_related_albums(album_id, limit=6)
+                'related_albums': spotify_service.get_related_albums(album_id, limit=6),
+                'form': form,
+                'reviews': reviews,
+                'user_rating': user_rating,
             }
             return render(request, 'albums/album_detail.html', context)
         else:
-            # Album not found
             context = {'error': 'Album not found'}
             return render(request, 'albums/album_detail.html', context)
-            
+
     except Exception as e:
         logger.error(f"Error fetching album details for {album_id}: {e}")
-        # Fallback to mock data
         context = {
             'album': get_mock_album_detail(album_id),
             'tracks': get_mock_tracks(),
-            'related_albums': []
+            'related_albums': [],
+            'form': None,
+            'reviews': [],
+            'user_rating': None,
         }
         return render(request, 'albums/album_detail.html', context)
 
